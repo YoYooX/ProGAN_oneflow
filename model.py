@@ -12,10 +12,8 @@ Specifically the key points implemented are:
 
 import oneflow as flow
 import oneflow.nn as nn
-# import oneflow.nn.functional as F
 from math import log2
-import numpy as np
-import torch
+
 """
 Factors is used in Discrmininator and Generator for how much
 the channels should be multiplied and expanded for each layer,
@@ -232,13 +230,7 @@ if __name__ == "__main__":
 
     for img_size in [4, 8, 16, 32, 64, 128, 256, 512, 1024]:
         num_steps = int(log2(img_size / 4))
-        x = torch.randn((1, Z_DIM, 1, 1))
-        print(x.size())
-        # x = flow.randn((1, Z_DIM, 1, 1))
-        arr = np.random.rand(1, Z_DIM, 1, 1)
-        x = flow.Tensor(arr, dtype=flow.float32)
-        print(x.size())
-
+        x = flow.randn(1, Z_DIM, 1, 1)
         z = gen(x, 0.5, steps=num_steps)
         assert z.shape == (1, 3, img_size, img_size)
         out = critic(z, alpha=0.5, steps=num_steps)
